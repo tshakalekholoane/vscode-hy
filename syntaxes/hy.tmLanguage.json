@@ -1,0 +1,256 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Hy",
+	"patterns": [
+		{ "include": "#comment" },
+		{ "include": "#shebang-comment" },
+		{ "include": "#quoted-sexp" },
+		{ "include": "#sexp" },
+		{ "include": "#keyfn" },
+		{ "include": "#string" },
+		{ "include": "#vector" },
+		{ "include": "#set" },
+		{ "include": "#map" },
+		{ "include": "#regexp" },
+		{ "include": "#var" },
+		{ "include": "#constants" },
+		{ "include": "#dynamic-variables" },
+		{ "include": "#metadata" },
+		{ "include": "#namespace-symbol" },
+		{ "include": "#symbol" }
+	],
+	"repository": {
+		"comment": {
+			"begin": "(?<!\\\\);",
+			"beginCaptures": { "0": { "name": "punctuation.definition.comment.hy" } },
+			"end": "$",
+			"name": "comment.line.semicolon.hy"
+		},
+		"constants": {
+			"patterns": [
+				{
+					"match": "(nil)(?=(\\s|\\)|\\]|\\}))",
+					"name": "constant.language.nil.hy"
+				},
+				{
+					"match": "(True|False)",
+					"name": "constant.language.boolean.hy"
+				},
+				{
+					"match": "(-?\\d+/\\d+)",
+					"name": "constant.numeric.ratio.hy"
+				},
+				{
+					"match": "(-?\\d+[rR]\\w+)",
+					"name": "constant.numeric.arbitrary-radix.hy"
+				},
+				{
+					"match": "(-?0[xX][0-9a-fA-F]+)",
+					"name": "constant.numeric.hexadecimal.hy"
+				},
+				{
+					"match": "(-?0\\d+)",
+					"name": "constant.numeric.octal.hy"
+				},
+				{
+					"match": "(-?\\d+\\.\\d+([eE][+-]?\\d+)?M)",
+					"name": "constant.numeric.bigdecimal.hy"
+				},
+				{
+					"match": "(-?\\d+\\.\\d+([eE][+-]?\\d+)?)",
+					"name": "constant.numeric.double.hy"
+				},
+				{
+					"match": "(-?\\d+N)",
+					"name": "constant.numeric.bigint.hy"
+				},
+				{
+					"match": "(-?\\d+)",
+					"name": "constant.numeric.long.hy"
+				},
+				{ "include": "#keyword" }
+			]
+		},
+		"keyword": {
+			"match": "(?<=(\\s|\\(|\\[|\\{)):[\\w\\#\\.\\-\\_\\:\\+\\=\\>\\<\\/\\!\\?\\*]+(?=(\\s|\\)|\\]|\\}|\\,))",
+			"name": "constant.keyword.hy"
+		},
+		"keyfn": {
+			"patterns": [
+				{
+					"match": "(?<=(\\s|\\(|\\[|\\{))(if(-[-\\p{Ll}\\?]*)?|when(-[-\\p{Ll}]*)?|for(-[-\\p{Ll}]*)?|cond|do|let(-[-\\p{Ll}\\?]*)?|binding|loop|recur|fn|throw[\\p{Ll}\\-]*|try|catch|finally|([\\p{Ll}]*case))(?=(\\s|\\)|\\]|\\}))",
+					"name": "storage.control.hy"
+				},
+				{
+					"match": "(?<=(\\s|\\(|\\[|\\{))(declare-?|(in-)?ns|import|use|require|load|compile|(def[\\p{Ll}\\-]*))(?=(\\s|\\)|\\]|\\}))",
+					"name": "keyword.control.hy"
+				}
+			]
+		},
+		"dynamic-variables": {
+			"match": "\\*[\\w\\.\\-\\_\\:\\+\\=\\>\\<\\!\\?\\d]+\\*",
+			"name": "meta.symbol.dynamic.hy"
+		},
+		"map": {
+			"begin": "(\\{)",
+			"beginCaptures": { "1": { "name": "punctuation.section.map.begin.hy" } },
+			"end": "(\\}(?=[\\}\\]\\)\\s]*(?:;|$)))|(\\})",
+			"endCaptures": {
+				"1": { "name": "punctuation.section.map.end.trailing.hy" },
+				"2": { "name": "punctuation.section.map.end.hy" }
+			},
+			"name": "meta.map.hy",
+			"patterns": [{ "include": "$self" }]
+		},
+		"metadata": {
+			"patterns": [
+				{
+					"begin": "(\\^\\{)",
+					"beginCaptures": { "1": { "name": "punctuation.section.metadata.map.begin.hy" } },
+					"end": "(\\}(?=[\\}\\]\\)\\s]*(?:;|$)))|(\\})",
+					"endCaptures": {
+						"1": { "name": "punctuation.section.metadata.map.end.trailing.hy" },
+						"2": { "name": "punctuation.section.metadata.map.end.hy" }
+					},
+					"name": "meta.metadata.map.hy",
+					"patterns": [{ "include": "$self" }]
+				},
+				{
+					"begin": "(\\^)",
+					"end": "(\\s)",
+					"name": "meta.metadata.simple.hy",
+					"patterns": [
+						{ "include": "#keyword" },
+						{ "include": "$self" }
+					]
+				}
+			]
+		},
+		"quoted-sexp": {
+			"begin": "(['``]\\()",
+			"beginCaptures": { "1": { "name": "punctuation.section.expression.begin.hy" } },
+			"end": "(\\))$|(\\)(?=[\\}\\]\\)\\s]*(?:;|$)))|(\\))",
+			"endCaptures": {
+				"1": { "name": "punctuation.section.expression.end.trailing.hy" },
+				"2": { "name": "punctuation.section.expression.end.trailing.hy" },
+				"3": { "name": "punctuation.section.expression.end.hy" }
+			},
+			"name": "meta.quoted-expression.hy",
+			"patterns": [{ "include": "$self" }]
+		},
+		"regexp": {
+			"begin": "#\"",
+			"beginCaptures": { "0": { "name": "punctuation.definition.regexp.begin.hy" } },
+			"end": "\"",
+			"endCaptures": { "0": { "name": "punctuation.definition.regexp.end.hy" } },
+			"name": "string.regexp.hy",
+			"patterns": [{ "include": "#regexp_escaped_char" }]
+		},
+		"regexp_escaped_char": {
+			"match": "\\\\.",
+			"name": "constant.character.escape.hy"
+		},
+		"set": {
+			"begin": "(\\#\\{)",
+			"beginCaptures": { "1": { "name": "punctuation.section.set.begin.hy" } },
+			"end": "(\\}(?=[\\}\\]\\)\\s]*(?:;|$)))|(\\})",
+			"endCaptures": {
+				"1": { "name": "punctuation.section.set.end.trailing.hy" },
+				"2": { "name": "punctuation.section.set.end.hy" }
+			},
+			"name": "meta.set.hy",
+			"patterns": [{ "include": "$self" }]
+		},
+		"sexp": {
+			"begin": "(\\()",
+			"beginCaptures": { "1": { "name": "punctuation.section.expression.begin.hy" } },
+			"end": "(\\))$|(\\)(?=[\\}\\]\\)\\s]*(?:;|$)))|(\\))",
+			"endCaptures": {
+				"1": { "name": "punctuation.section.expression.end.trailing.hy" },
+				"2": { "name": "punctuation.section.expression.end.trailing.hy" },
+				"3": { "name": "punctuation.section.expression.end.hy" }
+			},
+			"name": "meta.expression.hy",
+			"patterns": [
+				{
+					"begin": "(?<=\\()(ns|declare|def[\\w\\d._:+=><!?*-]*|[\\w._:+=><!?*-][\\w\\d._:+=><!?*-]*/def[\\w\\d._:+=><!?*-]*)\\s+",
+					"beginCaptures": { "1": { "name": "keyword.control.hy" } },
+					"end": "(?=\\))",
+					"name": "meta.definition.global.hy",
+					"patterns": [
+						{ "include": "#metadata" },
+						{ "include": "#dynamic-variables" },
+						{
+							"match": "([\\p{L}\\.\\-\\_\\+\\=\\>\\<\\!\\?\\*][\\w\\.\\-\\_\\:\\+\\=\\>\\<\\!\\?\\*\\d]*)",
+							"name": "entity.global.hy"
+						},
+						{ "include": "$self" }
+					]
+				},
+				{ "include": "#keyfn" },
+				{ "include": "#constants" },
+				{ "include": "#vector" },
+				{ "include": "#map" },
+				{ "include": "#set" },
+				{ "include": "#sexp" },
+				{
+					"match": "(?<=\\()(.+?)(?=\\s|\\))",
+					"captures": { "1": { "name": "entity.name.function.hy" } },
+					"patterns": [{ "include": "$self" }]
+				},
+				{ "include": "$self" }
+			]
+		},
+		"shebang-comment": {
+			"begin": "^(#!)",
+			"beginCaptures": { "1": { "name": "punctuation.definition.comment.shebang.hy" } },
+			"end": "$",
+			"name": "comment.line.shebang.hy"
+		},
+		"string": {
+			"begin": "(?<!\\\\)(\")",
+			"beginCaptures": { "1": { "name": "punctuation.definition.string.begin.hy" } },
+			"end": "(\")",
+			"endCaptures": { "1": { "name": "punctuation.definition.string.end.hy" } },
+			"name": "string.quoted.double.hy",
+			"patterns": [
+				{
+					"match": "\\\\.",
+					"name": "constant.character.escape.hy"
+				}
+			]
+		},
+		"namespace-symbol": {
+			"patterns": [
+				{
+					"match": "([\\p{L}\\.\\-\\_\\+\\=\\>\\<\\!\\?\\*][\\w\\.\\-\\_\\:\\+\\=\\>\\<\\!\\?\\*\\d]*)/",
+					"captures": { "1": { "name": "meta.symbol.namespace.hy" } }
+				}
+			]
+		},
+		"symbol": {
+			"patterns": [
+				{
+					"match": "([\\p{L}\\.\\-\\_\\+\\=\\>\\<\\!\\?\\*][\\w\\.\\-\\_\\:\\+\\=\\>\\<\\!\\?\\*\\d]*)",
+					"name": "meta.symbol.hy"
+				}
+			]
+		},
+		"var": {
+			"match": "(?<=(\\s|\\(|\\[|\\{)\\#)'[\\w\\.\\-\\_\\:\\+\\=\\>\\<\\/\\!\\?\\*]+(?=(\\s|\\)|\\]|\\}))",
+			"name": "meta.var.hy"
+		},
+		"vector": {
+			"begin": "(\\[)",
+			"beginCaptures": { "1": { "name": "punctuation.section.vector.begin.hy" } },
+			"end": "(\\](?=[\\}\\]\\)\\s]*(?:;|$)))|(\\])",
+			"endCaptures": {
+				"1": { "name": "punctuation.section.vector.end.trailing.hy" },
+				"2": { "name": "punctuation.section.vector.end.hy" }
+			},
+			"name": "meta.vector.hy",
+			"patterns": [{ "include": "$self" }]
+		}
+	},
+	"scopeName": "source.hy"
+}

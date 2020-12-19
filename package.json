@@ -1,0 +1,23 @@
+{
+    "name": "hy",
+    "displayName": "Hy Language Basics",
+    "description": "Adds syntax highlighting and bracket matching in Hy files.",
+    "version": "0.0.1",
+    "publisher": "Tshaka Eric Lekholoane",
+    "license": "MIT",
+    "engines": { "vscode": "^1.52.0" },
+    "categories": ["Programming Languages"],
+    "contributes": {
+        "languages": [{
+            "id": "hy",
+            "aliases": ["Hy", "hy"],
+            "extensions": [".hy"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "hy",
+            "scopeName": "source.hy",
+            "path": "./syntaxes/hy.tmLanguage.json"
+        }]
+    }
+}
