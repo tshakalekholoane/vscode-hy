@@ -4,7 +4,7 @@
     "description": "Adds syntax highlighting and bracket matching in Hy files.",
     "version": "0.0.5",
     "publisher": "TshakaEricLekholoane",
-    "repository": { "url": "https://github.com/leveson/hy" },
+    "repository": { "url": "https://github.com/leveson/vscode-hy" },
     "author": {
         "name": "Tshaka Eric Lekholoane",
         "url": "https://github.com/leveson"
