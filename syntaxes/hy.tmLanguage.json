@@ -1,6 +1,7 @@
 {
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "Hy",
+	"scopeName": "source.hy",
 	"patterns": [
 		{ "include": "#comment" },
 		{ "include": "#shebang-comment" },
@@ -29,7 +30,7 @@
 		"constants": {
 			"patterns": [
 				{
-					"match": "(nil)(?=(\\s|\\)|\\]|\\}))",
+					"match": "(None)(?=(\\s|\\)|\\]|\\}))",
 					"name": "constant.language.nil.hy"
 				},
 				{
@@ -78,11 +79,11 @@
 		"keyfn": {
 			"patterns": [
 				{
-					"match": "(?<=(\\s|\\(|\\[|\\{))(if(-[-\\p{Ll}\\?]*)?|when(-[-\\p{Ll}]*)?|for(-[-\\p{Ll}]*)?|cond|do|let(-[-\\p{Ll}\\?]*)?|setv|binding|loop|recur|fn|throw[\\p{Ll}\\-]*|try|catch|finally|([\\p{Ll}]*case))(?=(\\s|\\)|\\]|\\}))",
+					"match": "(?<=(\\s|\\(|\\[|\\{))(if(-[-\\p{Ll}\\?]*)?|when(-[-\\p{Ll}]*)?|for(-[-\\p{Ll}]*)?|cond|do|let(-[-\\p{Ll}\\?]*)?|binding|loop|recur|fn|throw[\\p{Ll}\\-]*|try|except|pass|raise|yield|catch|finally|([\\p{Ll}]*case))(?=(\\s|\\)|\\]|\\}))",
 					"name": "storage.control.hy"
 				},
 				{
-					"match": "(?<=(\\s|\\(|\\[|\\{))(declare-?|(in-)?ns|import|use|require|load|compile|(def[\\p{Ll}\\-]*))(?=(\\s|\\)|\\]|\\}))",
+					"match": "(?<=(\\s|\\(|\\[|\\{))(declare-?|(in-)?ns|import|use|require|load|compile|setv|(def[\\p{Ll}\\-]*))(?=(\\s|\\)|\\]|\\}))",
 					"name": "keyword.control.hy"
 				}
 			]
@@ -173,7 +174,7 @@
 			"name": "meta.expression.hy",
 			"patterns": [
 				{
-					"begin": "(?<=\\()(ns|declare|def[\\w\\d._:+=><!?*-]*|[\\w._:+=><!?*-][\\w\\d._:+=><!?*-]*/def[\\w\\d._:+=><!?*-]*)\\s+",
+					"begin": "(?<=\\()(ns|declare|setv|def[\\w\\d._:+=><!?*-]*|[\\w._:+=><!?*-][\\w\\d._:+=><!?*-]*/def[\\w\\d._:+=><!?*-]*)\\s+",
 					"beginCaptures": { "1": { "name": "keyword.control.hy" } },
 					"end": "(?=\\))",
 					"name": "meta.definition.global.hy",
@@ -251,6 +252,5 @@
 			"name": "meta.vector.hy",
 			"patterns": [{ "include": "$self" }]
 		}
-	},
-	"scopeName": "source.hy"
+	}	
 }
