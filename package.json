@@ -1,31 +1,51 @@
 {
-    "name": "hy",
-    "displayName": "Hy Language Basics",
-    "description": "Adds syntax highlighting and bracket matching in Hy files.",
-    "version": "0.0.11",
-    "publisher": "TshakaEricLekholoane",
-    "repository": { "url": "https://github.com/leveson/vscode-hy" },
-    "author": {
-        "name": "Tshaka Eric Lekholoane",
-        "url": "https://github.com/leveson"
-    },
-    "preview": true,
-    "icon": "static/cuddles-256px.png",
-    "license": "MIT",
-    "engines": { "vscode": "^1.43.0" },
-    "categories": ["Programming Languages"],
-    "keywords": ["hy", "hylang", "hy-lang"],
-    "contributes": {
-        "languages": [{
-            "id": "hy",
-            "aliases": ["Hy", "hy"],
-            "extensions": [".hy"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "hy",
-            "scopeName": "source.hy",
-            "path": "./syntaxes/hy.tmLanguage.json"
-        }]
-    }
+  "name": "hy",
+  "displayName": "Hy Language Basics",
+  "description": "Adds syntax highlighting and bracket matching in Hy files.",
+  "version": "0.0.12",
+  "publisher": "TshakaEricLekholoane",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leveson/vscode-hy.git"
+  },
+  "author": {
+    "name": "Tshaka Eric Lekholoane",
+    "url": "https://leveson.dev"
+  },
+  "preview": true,
+  "icon": "static/cuddles-256px.png",
+  "license": "MIT",
+  "engines": {
+    "vscode": "*"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "hy",
+    "hylang",
+    "hy-lang"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "hy",
+        "aliases": [
+          "Hy",
+          "hy"
+        ],
+        "extensions": [
+          ".hy"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "hy",
+        "scopeName": "source.hy",
+        "path": "./syntaxes/hy.tmLanguage.json"
+      }
+    ]
+  }
 }

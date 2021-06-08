@@ -1,236 +1,405 @@
 {
-  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "Hy",
   "scopeName": "source.hy",
   "patterns": [
-    { "include": "#comment" },
-    { "include": "#shebang-comment" },
-    { "include": "#quoted-sexp" },
-    { "include": "#sexp" },
-    { "include": "#keyfn" },
-    { "include": "#string" },
-    { "include": "#vector" },
-    { "include": "#set" },
-    { "include": "#map" },
-    { "include": "#regexp" },
-    { "include": "#var" },
-    { "include": "#constants" },
-    { "include": "#dynamic-variables" },
-    { "include": "#metadata" },
-    { "include": "#namespace-symbol" },
-    { "include": "#symbol" }
+    {
+      "include": "#comment"
+    },
+    {
+      "include": "#shebang"
+    },
+    {
+      "include": "#quoted-sexp"
+    },
+    {
+      "include": "#sexp"
+    },
+    {
+      "include": "#keyfn"
+    },
+    {
+      "include": "#string"
+    },
+    {
+      "include": "#vector"
+    },
+    {
+      "include": "#set"
+    },
+    {
+      "include": "#map"
+    },
+    {
+      "include": "#regexp"
+    },
+    {
+      "include": "#var"
+    },
+    {
+      "include": "#constants"
+    },
+    {
+      "include": "#dynamic-variables"
+    },
+    {
+      "include": "#metadata"
+    },
+    {
+      "include": "#namespace-symbol"
+    },
+    {
+      "include": "#symbol"
+    }
   ],
   "repository": {
     "comment": {
-      "begin": "(?<!\\\\);",
-      "beginCaptures": { "0": { "name": "punctuation.definition.comment.hy" } },
+      "name": "comment.line.semicolon.hy",
+      "begin": "(?<!\\\\);(;{1,3})?",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.comment.hy"
+        }
+      },
       "end": "$",
-      "name": "comment.line.semicolon.hy"
+      "patterns": [
+        {
+          "name": "keyword.codetag.hy",
+          "match": "(?<=;(\\s+)?)(TODO|FIXME|XXX|BUG|HACK|NOTE):"
+        }
+      ]
+    },
+    "shebang": {
+      "name": "comment.line.shebang.hy",
+      "begin": "^(#!)",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.definition.comment.shebang.hy"
+        }
+      },
+      "end": "$"
     },
     "constants": {
       "patterns": [
         {
-          "match": "(None)(?=(\\s|\\)|\\]|\\}))",
-          "name": "constant.language.nil.hy"
+          "name": "constant.language.null.hy",
+          "match": "(None)(?=(\\s|\\)|\\]|\\}))"
         },
         {
-          "match": "(True|False)",
-          "name": "constant.language.boolean.hy"
+          "name": "constant.language.boolean.hy",
+          "match": "(True|False)"
         },
         {
-          "match": "(-?\\d+/\\d+)",
-          "name": "constant.numeric.ratio.hy"
+          "name": "constant.numeric.fraction.hy",
+          "match": "(-?\\d+/\\d+)"
         },
         {
-          "match": "(-?\\d+[rR]\\w+)",
-          "name": "constant.numeric.arbitrary-radix.hy"
+          "name": "constant.numeric.hexadecimal.hy",
+          "match": "(-?0[xX][0-9a-fA-F]+)"
         },
         {
-          "match": "(-?0[xX][0-9a-fA-F]+)",
-          "name": "constant.numeric.hexadecimal.hy"
+          "name": "constant.numeric.octal.hy",
+          "match": "(-?0\\d+)"
         },
         {
-          "match": "(-?0\\d+)",
-          "name": "constant.numeric.octal.hy"
+          "name": "constant.numeric.float.hy",
+          "match": "(-?\\d+\\.\\d+([eE][+-]?\\d+)?)"
         },
         {
-          "match": "(-?\\d+\\.\\d+([eE][+-]?\\d+)?M)",
-          "name": "constant.numeric.bigdecimal.hy"
+          "name": "constant.numeric.complex.hy",
+          "match": "(-?\\d+(\\.\\d+([eE][+-]?\\d+)?)?j)"
         },
         {
-          "match": "(-?\\d+\\.\\d+([eE][+-]?\\d+)?)",
-          "name": "constant.numeric.double.hy"
+          "name": "constant.numeric.int.hy",
+          "match": "(-?\\d+)"
         },
         {
-          "match": "(-?\\d+N)",
-          "name": "constant.numeric.bigint.hy"
-        },
-        {
-          "match": "(-?\\d+)",
-          "name": "constant.numeric.long.hy"
-        },
-        { "include": "#keyword" }
+          "include": "#keyword"
+        }
       ]
     },
     "keyword": {
-      "match": "(?<=(\\s|\\(|\\[|\\{)):[\\w\\#\\.\\-\\_\\:\\+\\=\\>\\<\\/\\!\\?\\*]+(?=(\\s|\\)|\\]|\\}|\\,))",
-      "name": "constant.keyword.hy"
+      "name": "constant.keyword.hy",
+      "match": "(?<=(\\s|\\(|\\[|\\{)):[\\w\\#\\.\\-\\_\\:\\+\\=\\>\\<\\/\\!\\?\\*]+(?=(\\s|\\)|\\]|\\}|\\,))"
     },
     "keyfn": {
       "patterns": [
         {
-          "match": "(?<=(\\s|\\(|\\[|\\{))(if(-[-\\p{Ll}\\?]*)?|when(-[-\\p{Ll}]*)?|for(-[-\\p{Ll}]*)?|cond|do|let(-[-\\p{Ll}\\?]*)?|binding|loop|recur|fn|throw[\\p{Ll}\\-]*|try|break|continue|except|pass|raise|yield|yield-from|catch|finally|global|nonlocal|return|unless|while|([\\p{Ll}]*case))(?=(\\s|\\)|\\]|\\}))",
-          "name": "storage.control.hy"
+          "name": "keyword.control.hy",
+          "match": "(?<=(\\s|\\(|\\[|\\{))(break|continue)|((if|set[vx])(-[-\\p{Ll}\\?]*)?|(unless|when|while|[dgls]?for)(-[-\\p{Ll}]*)?|cond|do|fn(/a)?|raise[\\p{Ll}\\-]*|try|except|finally|return|yield)(?=(\\s|\\)|\\]|\\}))"
         },
         {
-          "match": "#@|'|(?<=(\\s|\\(|\\[|\\{))(declare-?|(in-)?ns|import|use|require|compile|setv|del|assert|async|await|\\.|->|->>|and|as->|assoc|cmp|comment|doc|dfor|setx|doto|eval-and-compile|eval-when-compile|first|gensym|get|gfor|last|lfor|not|or|of|py|pys|quote|rest|sfor|cut|unpack-iterable|unpack-mapping|unquote|unquote-splice|with|with-decorator|with-gensyms|xor|,|(def[\\p{Ll}\\-]*))(?=(\\s|\\)|\\]|\\}))",
-          "name": "keyword.control.hy"
+          "name": "keyword.operator.hy",
+          "match": "(?<=(\\s|\\(|\\[|\\{))(and|cmp|not|or|xor)(?=(\\s|\\)|\\]|\\}))"
+        },
+        {
+          "name": "keyword.other.hy",
+          "match": "^#@(?=\\()|(?<=(\\s|\\(|\\[|\\{))(\\.\\s|__\\p{Ll}+__|(as)?->>?|as(sert)?|async|await|def(class|n(/a)?|main|macro(/g\\!|\\!)?|tag)|del|doto|eval-(and|when)-compile|gensym|in|import|pys?|quasiquote|quote|require|unquote(-splice)?|with(-decorator|-gensyms|/a)?|yield-from)(?=(\\s|\\)|\\]|\\}))"
+        },
+        {
+          "name": "storage.modifier.hy",
+          "match": "(?<=(\\s|\\(|\\[|\\{))(global|nonlocal)(?=(\\s|\\)|\\]|\\}))"
         }
       ]
     },
     "dynamic-variables": {
-      "match": "\\*[\\w\\.\\-\\_\\:\\+\\=\\>\\<\\!\\?\\d]+\\*",
-      "name": "meta.symbol.dynamic.hy"
+      "name": "meta.symbol.dynamic.hy",
+      "match": "\\*[\\w\\.\\-\\_\\:\\+\\=\\>\\<\\!\\?\\d]+\\*"
     },
     "map": {
+      "name": "meta.map.hy",
       "begin": "(\\{)",
-      "beginCaptures": { "1": { "name": "punctuation.section.map.begin.hy" } },
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.section.map.begin.hy"
+        }
+      },
       "end": "(\\}(?=[\\}\\]\\)\\s]*(?:;|$)))|(\\})",
       "endCaptures": {
-        "1": { "name": "punctuation.section.map.end.trailing.hy" },
-        "2": { "name": "punctuation.section.map.end.hy" }
+        "1": {
+          "name": "punctuation.section.map.end.trailing.hy"
+        },
+        "2": {
+          "name": "punctuation.section.map.end.hy"
+        }
       },
-      "name": "meta.map.hy",
-      "patterns": [{ "include": "$self" }]
+      "patterns": [
+        {
+          "include": "$self"
+        }
+      ]
     },
     "metadata": {
       "patterns": [
         {
+          "name": "meta.metadata.map.hy",
           "begin": "(\\^\\{)",
           "beginCaptures": {
-            "1": { "name": "punctuation.section.metadata.map.begin.hy" }
+            "1": {
+              "name": "punctuation.section.metadata.map.begin.hy"
+            }
           },
           "end": "(\\}(?=[\\}\\]\\)\\s]*(?:;|$)))|(\\})",
           "endCaptures": {
-            "1": { "name": "punctuation.section.metadata.map.end.trailing.hy" },
-            "2": { "name": "punctuation.section.metadata.map.end.hy" }
+            "1": {
+              "name": "punctuation.section.metadata.map.end.trailing.hy"
+            },
+            "2": {
+              "name": "punctuation.section.metadata.map.end.hy"
+            }
           },
-          "name": "meta.metadata.map.hy",
-          "patterns": [{ "include": "$self" }]
+          "patterns": [
+            {
+              "include": "$self"
+            }
+          ]
         },
         {
+          "name": "meta.metadata.simple.hy",
           "begin": "(\\^)",
           "end": "(\\s)",
-          "name": "meta.metadata.simple.hy",
-          "patterns": [{ "include": "#keyword" }, { "include": "$self" }]
+          "patterns": [
+            {
+              "include": "#keyword"
+            },
+            {
+              "include": "$self"
+            }
+          ]
         }
       ]
     },
     "quoted-sexp": {
-      "begin": "(['``]\\()",
+      "name": "meta.quoted-expression.hy",
+      "begin": "(['`]\\()",
       "beginCaptures": {
-        "1": { "name": "punctuation.section.expression.begin.hy" }
+        "1": {
+          "name": "punctuation.section.expression.begin.hy"
+        }
       },
       "end": "(\\))$|(\\)(?=[\\}\\]\\)\\s]*(?:;|$)))|(\\))",
       "endCaptures": {
-        "1": { "name": "punctuation.section.expression.end.trailing.hy" },
-        "2": { "name": "punctuation.section.expression.end.trailing.hy" },
-        "3": { "name": "punctuation.section.expression.end.hy" }
+        "1": {
+          "name": "punctuation.section.expression.end.trailing.hy"
+        },
+        "2": {
+          "name": "punctuation.section.expression.end.trailing.hy"
+        },
+        "3": {
+          "name": "punctuation.section.expression.end.hy"
+        }
       },
-      "name": "meta.quoted-expression.hy",
-      "patterns": [{ "include": "$self" }]
+      "patterns": [
+        {
+          "include": "$self"
+        }
+      ]
     },
     "regexp": {
+      "name": "string.regexp.hy",
       "begin": "#\"",
       "beginCaptures": {
-        "0": { "name": "punctuation.definition.regexp.begin.hy" }
+        "0": {
+          "name": "punctuation.definition.regexp.begin.hy"
+        }
       },
       "end": "\"",
       "endCaptures": {
-        "0": { "name": "punctuation.definition.regexp.end.hy" }
+        "0": {
+          "name": "punctuation.definition.regexp.end.hy"
+        }
       },
-      "name": "string.regexp.hy",
-      "patterns": [{ "include": "#regexp_escaped_char" }]
+      "patterns": [
+        {
+          "include": "#regexp_escaped_char"
+        }
+      ]
     },
     "regexp_escaped_char": {
-      "match": "\\\\.",
-      "name": "constant.character.escape.hy"
+      "name": "constant.character.escape.hy",
+      "match": "\\\\."
     },
     "set": {
+      "name": "meta.set.hy",
       "begin": "(\\#\\{)",
-      "beginCaptures": { "1": { "name": "punctuation.section.set.begin.hy" } },
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.section.set.begin.hy"
+        }
+      },
       "end": "(\\}(?=[\\}\\]\\)\\s]*(?:;|$)))|(\\})",
       "endCaptures": {
-        "1": { "name": "punctuation.section.set.end.trailing.hy" },
-        "2": { "name": "punctuation.section.set.end.hy" }
+        "1": {
+          "name": "punctuation.section.set.end.trailing.hy"
+        },
+        "2": {
+          "name": "punctuation.section.set.end.hy"
+        }
       },
-      "name": "meta.set.hy",
-      "patterns": [{ "include": "$self" }]
+      "patterns": [
+        {
+          "include": "$self"
+        }
+      ]
     },
     "sexp": {
+      "name": "meta.expression.hy",
       "begin": "(\\()",
       "beginCaptures": {
-        "1": { "name": "punctuation.section.expression.begin.hy" }
+        "1": {
+          "name": "punctuation.section.expression.begin.hy"
+        }
       },
       "end": "(\\))$|(\\)(?=[\\}\\]\\)\\s]*(?:;|$)))|(\\))",
       "endCaptures": {
-        "1": { "name": "punctuation.section.expression.end.trailing.hy" },
-        "2": { "name": "punctuation.section.expression.end.trailing.hy" },
-        "3": { "name": "punctuation.section.expression.end.hy" }
+        "1": {
+          "name": "punctuation.section.expression.end.trailing.hy"
+        },
+        "2": {
+          "name": "punctuation.section.expression.end.trailing.hy"
+        },
+        "3": {
+          "name": "punctuation.section.expression.end.hy"
+        }
       },
-      "name": "meta.expression.hy",
       "patterns": [
         {
-          "begin": "(?<=\\()(ns|declare|setv|def[\\w\\d._:+=><!?*-]*|[\\w._:+=><!?*-][\\w\\d._:+=><!?*-]*/def[\\w\\d._:+=><!?*-]*)\\s+",
-          "beginCaptures": { "1": { "name": "keyword.control.hy" } },
-          "end": "(?=\\))",
           "name": "meta.definition.global.hy",
+          "begin": "(?<=\\()(set[vx]|def[\\w\\d._:+=><!?*-]*|[\\w._:+=><!?*-][\\w\\d._:+=><!?*-]*/def[\\w\\d._:+=><!?*-]*)\\s+",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.hy"
+            }
+          },
+          "end": "(?=\\))",
           "patterns": [
-            { "include": "#metadata" },
-            { "include": "#dynamic-variables" },
             {
-              "match": "([\\p{L}\\.\\-\\_\\+\\=\\>\\<\\!\\?\\*][\\w\\.\\-\\_\\:\\+\\=\\>\\<\\!\\?\\*\\d]*)",
-              "name": "entity.global.hy"
+              "include": "#metadata"
             },
-            { "include": "$self" }
+            {
+              "include": "#dynamic-variables"
+            },
+            {
+              "name": "entity.global.hy",
+              "match": "([\\p{L}\\.\\-\\_\\+\\=\\>\\<\\!\\?\\*][\\w\\.\\-\\_\\:\\+\\=\\>\\<\\!\\?\\*\\d]*)"
+            },
+            {
+              "include": "$self"
+            }
           ]
         },
-        { "include": "#keyfn" },
-        { "include": "#constants" },
-        { "include": "#vector" },
-        { "include": "#map" },
-        { "include": "#set" },
-        { "include": "#sexp" },
+        {
+          "include": "#keyfn"
+        },
+        {
+          "include": "#constants"
+        },
+        {
+          "include": "#vector"
+        },
+        {
+          "include": "#map"
+        },
+        {
+          "include": "#set"
+        },
+        {
+          "include": "#sexp"
+        },
         {
           "match": "(?<=\\()(.+?)(?=\\s|\\))",
-          "captures": { "1": { "name": "entity.name.function.hy" } },
-          "patterns": [{ "include": "$self" }]
+          "captures": {
+            "1": {
+              "name": "entity.name.function.hy"
+            }
+          },
+          "patterns": [
+            {
+              "include": "$self"
+            }
+          ]
         },
-        { "include": "$self" }
+        {
+          "include": "$self"
+        }
       ]
     },
-    "shebang-comment": {
-      "begin": "^(#!)",
-      "beginCaptures": {
-        "1": { "name": "punctuation.definition.comment.shebang.hy" }
-      },
-      "end": "$",
-      "name": "comment.line.shebang.hy"
-    },
     "string": {
-      "begin": "(?<!\\\\)(\")",
-      "beginCaptures": {
-        "1": { "name": "punctuation.definition.string.begin.hy" }
-      },
-      "end": "(\")",
-      "endCaptures": {
-        "1": { "name": "punctuation.definition.string.end.hy" }
-      },
-      "name": "string.quoted.double.hy",
       "patterns": [
         {
-          "match": "\\\\.",
-          "name": "constant.character.escape.hy"
+          "name": "string.quoted.double.hy",
+          "begin": "(?<!\\\\)(\")",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.hy"
+            }
+          },
+          "end": "(\")",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.definition.string.end.hy"
+            }
+          },
+          "patterns": [
+            {
+              "match": "\\\\.",
+              "name": "constant.character.escape.hy"
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.bracket-string.hy",
+          "begin": "(?<!\\\\)(\\#\\[\\[)",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.hy"
+            }
+          },
+          "end": "(\\]\\])",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.definition.string.end.hy"
+            }
+          }
         }
       ]
     },
@@ -238,34 +407,48 @@
       "patterns": [
         {
           "match": "([\\p{L}\\.\\-\\_\\+\\=\\>\\<\\!\\?\\*][\\w\\.\\-\\_\\:\\+\\=\\>\\<\\!\\?\\*\\d]*)/",
-          "captures": { "1": { "name": "meta.symbol.namespace.hy" } }
+          "captures": {
+            "1": {
+              "name": "meta.symbol.namespace.hy"
+            }
+          }
         }
       ]
     },
     "symbol": {
       "patterns": [
         {
-          "match": "([\\p{L}\\.\\-\\_\\+\\=\\>\\<\\!\\?\\*][\\w\\.\\-\\_\\:\\+\\=\\>\\<\\!\\?\\*\\d]*)",
-          "name": "meta.symbol.hy"
+          "name": "meta.symbol.hy",
+          "match": "([\\p{L}\\.\\-\\_\\+\\=\\>\\<\\!\\?\\*][\\w\\.\\-\\_\\:\\+\\=\\>\\<\\!\\?\\*\\d]*)"
         }
       ]
     },
     "var": {
-      "match": "(?<=(\\s|\\(|\\[|\\{)\\#)'[\\w\\.\\-\\_\\:\\+\\=\\>\\<\\/\\!\\?\\*]+(?=(\\s|\\)|\\]|\\}))",
-      "name": "meta.var.hy"
+      "name": "meta.var.hy",
+      "match": "(?<=(\\s|\\(|\\[|\\{)\\#)'[\\w\\.\\-\\_\\:\\+\\=\\>\\<\\/\\!\\?\\*]+(?=(\\s|\\)|\\]|\\}))"
     },
     "vector": {
+      "name": "meta.vector.hy",
       "begin": "(\\[)",
       "beginCaptures": {
-        "1": { "name": "punctuation.section.vector.begin.hy" }
+        "1": {
+          "name": "punctuation.section.vector.begin.hy"
+        }
       },
       "end": "(\\](?=[\\}\\]\\)\\s]*(?:;|$)))|(\\])",
       "endCaptures": {
-        "1": { "name": "punctuation.section.vector.end.trailing.hy" },
-        "2": { "name": "punctuation.section.vector.end.hy" }
+        "1": {
+          "name": "punctuation.section.vector.end.trailing.hy"
+        },
+        "2": {
+          "name": "punctuation.section.vector.end.hy"
+        }
       },
-      "name": "meta.vector.hy",
-      "patterns": [{ "include": "$self" }]
+      "patterns": [
+        {
+          "include": "$self"
+        }
+      ]
     }
   }
 }
