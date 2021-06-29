@@ -98,7 +98,7 @@
         },
         {
           "name": "constant.numeric.octal.hy",
-          "match": "(-?0\\d+)"
+          "match": "(-?0[oO][0-7]+)"
         },
         {
           "name": "constant.numeric.float.hy",
@@ -106,7 +106,7 @@
         },
         {
           "name": "constant.numeric.complex.hy",
-          "match": "(-?\\d+(\\.\\d+([eE][+-]?\\d+)?)?j)"
+          "match": "((-?\\d+(\\.(\\d+([eE][+-]?\\d+)?)?)?)[+-](\\d+(\\.(\\d+([eE][+-]?\\d+)?)?)?)?j)"
         },
         {
           "name": "constant.numeric.int.hy",
