@@ -106,7 +106,7 @@
         },
         {
           "name": "constant.numeric.complex.hy",
-          "match": "((-?\\d+(\\.(\\d+([eE][+-]?\\d+)?)?)?)[+-](\\d+(\\.(\\d+([eE][+-]?\\d+)?)?)?)?j)"
+          "match": "((-?\\d+(\\.(\\d+([eE][+-]?\\d+)?)?)?)[+-](\\d+(\\.(\\d+([eE][+-]?\\d+)?)?)?)?[jJ])"
         },
         {
           "name": "constant.numeric.int.hy",

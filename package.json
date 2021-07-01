@@ -2,7 +2,7 @@
   "name": "hy",
   "displayName": "Hy Language Basics",
   "description": "Adds syntax highlighting and bracket matching in Hy files.",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "publisher": "TshakaEricLekholoane",
   "repository": {
     "type": "git",
